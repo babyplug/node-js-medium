@@ -1,18 +1,35 @@
 const User = require("../../models/user.js");
 
 const getUserByUsername = async username => {
-  return await User.findOne()
-    .where("username", username)
-    .lean();
+  try {
+    return await User.findOne()
+      .where("username", username)
+      .lean();
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const getUserWithoutPassword = async userId => {
-  return await User.findById(userId)
-    .select("-password")
-    .lean();
+  try {
+    return await User.findById(userId)
+      .select("-password")
+      .lean();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updateUserData = async (userId, data) => {
+  try {
+    return await User.findByIdAndUpdate(userId, data, { new: true }).lean();
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 module.exports = {
   getUserByUsername,
-  getUserWithoutPassword
+  getUserWithoutPassword,
+  updateUserData
 };

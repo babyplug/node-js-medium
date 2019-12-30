@@ -24,6 +24,12 @@ const UserSchema = new Schema({
   image: {
     type: String,
     default: ""
+  },
+  name: {
+    type: String
+  },
+  surname: {
+    type: String
   }
 });
 

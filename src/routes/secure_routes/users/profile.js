@@ -11,7 +11,7 @@ router
   .route("")
   .get(async (req, res) => {
     const _user = await userService.getUserWithoutPassword(req.user._id);
-    return res.json({ sucess: true, data: _user });
+    return res.json({ data: _user });
   })
   .put(async (req, res) => {
     try {
@@ -33,7 +33,7 @@ router
       }
 
       const _user = await userService.updateUserData(req.user._id, data);
-      return res.json({ sucess: true, data: _user });
+      return res.json({ data: _user });
     } catch (error) {
       return res.json({ sucess: false, error: true, message: error.message });
     }

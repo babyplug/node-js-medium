@@ -1,8 +1,8 @@
-const User = require("../../models/user.js");
+const UserModel = require("../../models/user");
 
 const getUserByUsername = async username => {
   try {
-    return await User.findOne()
+    return await UserModel.findOne()
       .where("username", username)
       .lean();
   } catch (error) {
@@ -12,7 +12,7 @@ const getUserByUsername = async username => {
 
 const getUserWithoutPassword = async userId => {
   try {
-    return await User.findById(userId)
+    return await UserModel.findById(userId)
       .select("-password")
       .lean();
   } catch (error) {
@@ -22,7 +22,9 @@ const getUserWithoutPassword = async userId => {
 
 const updateUserData = async (userId, data) => {
   try {
-    return await User.findByIdAndUpdate(userId, data, { new: true }).lean();
+    return await UserModel.findByIdAndUpdate(userId, data, {
+      new: true
+    }).lean();
   } catch (error) {
     console.log(error);
   }

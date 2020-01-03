@@ -4,6 +4,9 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const path = require("path");
 
+// utils
+const passportPlugin = require("./src/plugins/passport");
+
 // config and routes
 const config = require("./src/config/config");
 const routes = require("./src/routes/routes");
@@ -23,8 +26,6 @@ mongoose.connect(config.database, {
 
 // setup app
 app.use(express.json());
-
-require("./src/config/passport")(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -33,7 +34,7 @@ app.use("/images", express.static(publicDir));
 app.use("/api", routes);
 app.use(
   "/api/auth",
-  passport.authenticate("jwt", { session: false }),
+  passportPlugin.authen,
   express.json({ limit: "50Mb" }),
   authRoutes
 );

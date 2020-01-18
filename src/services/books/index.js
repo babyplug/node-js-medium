@@ -1,4 +1,5 @@
 const BookModel = require("../../models/book");
+const { handleError, ErrorHandler, HttpStatus } = require("../../utils/error");
 
 const getAllBooks = async (req, res) => {
   try {
@@ -10,8 +11,10 @@ const getAllBooks = async (req, res) => {
 };
 
 const validateReq = body => {
-  if (!body.title) throw new Error("Please filled title");
-  if (!body.description) throw new Error("Please filled description");
+  if (!body.title)
+    throw new ErrorHandler(HttpStatus.BAD_REQUEST, "Please filled title");
+  if (!body.description)
+    throw new ErrorHandler(HttpStatus.BAD_REQUEST, "Please filled description");
 };
 
 const createBook = async (req, res) => {
@@ -25,17 +28,17 @@ const createBook = async (req, res) => {
       createdBy: req.user._id
     });
     data = await BookModel.createBook(newBook);
-    return res.json({ success: true, data });
-  } catch (error) {
-    console.log(error);
+    return res.status(HttpStatus.CREATED).json({ success: true, data });
+  } catch (err) {
+    return handleError(err, res);
   }
 };
 
 const getBookById = async (req, res) => {
   try {
     return res.json({ data: await BookModel.getById(req.params.id) });
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    return handleError(err, res);
   }
 };
 

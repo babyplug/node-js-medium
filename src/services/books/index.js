@@ -1,7 +1,7 @@
 const BookModel = require("../../models/book");
 const { handleError, ErrorHandler, HttpStatus } = require("../../utils/error");
 
-const getAllBooks = async (req, res) => {
+const getAllBooks = () => async (req, res) => {
   try {
     books = await BookModel.getAllBook();
     return res.json({ data: books });
@@ -38,7 +38,9 @@ const getBookById = async (req, res) => {
   try {
     return res.json({ data: await BookModel.getById(req.params.id) });
   } catch (err) {
-    return handleError(err, res);
+    // return handleError(err, res);
+    // console.log(err);
+    // return res.status(500).json({ message: err.message });
   }
 };
 
@@ -46,6 +48,13 @@ const updateBook = async (req, res) => {
   try {
     const { title, description } = req.body;
     const id = req.params.id;
+
+    if (!title) {
+      throw new ErrorHandler(400, "Title is null");
+    }
+    if (!description) {
+      throw new ErrorHandler(400, "Description is null");
+    }
 
     data = await BookModel.updateBook(id, {
       title,
@@ -55,7 +64,7 @@ const updateBook = async (req, res) => {
 
     return res.json({ success: true, data });
   } catch (error) {
-    console.log(error);
+    return handleError(error, res);
   }
 };
 

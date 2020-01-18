@@ -6,9 +6,7 @@ const bookService = require("../../../services/books");
 
 router
   .route("")
-  .get(async (req, res) => {
-    return await bookService.getAllBooks(req, res);
-  })
+  .get(bookService.getAllBooks())
   .post(async (req, res) => {
     return await bookService.createBook(req, res);
   });

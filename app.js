@@ -12,7 +12,8 @@ const config = require("./src/config/config");
 const routes = require("./src/routes/routes");
 const authRoutes = require("./src/routes/secure_routes");
 
-const port = config.PORT || 3000;
+// port
+const port = config.PORT || 4000;
 
 // setting static
 let publicDir = path.join(__dirname, "/public/images/");
@@ -42,3 +43,6 @@ app.use(
 app.listen(port, () => {
   console.log("server is running on port: ", port);
 });
+
+// process.on("uncaughtException", process.exit);
+// process.on("SIGTERM", process.kill);

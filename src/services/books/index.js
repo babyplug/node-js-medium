@@ -1,10 +1,35 @@
 const BookModel = require("../../models/book");
 const { handleError, ErrorHandler, HttpStatus } = require("../../utils/error");
+const paginate = require("express-paginate");
+
+const calSkip = (page, size) => {
+  return (page - 1) * size;
+};
+
+const calPage = (count, size) => {
+  return Math.ceil(count / size);
+};
 
 const getAllBooks = () => async (req, res) => {
   try {
-    books = await BookModel.getAllBook();
-    return res.json({ data: books });
+    const page = req.query.page || 1;
+    const size = req.query.size || 25;
+
+    const [_results, _count] = await Promise.all([
+      BookModel.find()
+        .skip(calSkip(page, size))
+        .limit(size)
+        .exec(),
+      BookModel.countDocuments().exec()
+    ]);
+
+    return res.json({
+      currentPage: page,
+      pages: calPage(_count, size),
+      currentCount: _results.length,
+      totalCount: _count,
+      data: _results
+    });
   } catch (error) {
     console.log(error);
   }
@@ -85,3 +110,24 @@ module.exports = {
   updateBook,
   deleteBook
 };
+
+// books = await BookModel.getAllBook();
+// _page = parseInt(req.query.page) || 1;
+// const [_results, _count] = await Promise.all([
+//   BookModel.find()
+//     .skip(req.skip)
+//     .limit(req.query.limit)
+//     .exec(),
+//   BookModel.countDocuments().exec()
+// ]);
+
+// _pages = Math.ceil(_count / req.query.limit);
+// _hasNext = paginate.hasNextPages(req)(_page);
+
+// return res.json({
+//   currentPage: _page,
+//   pages: _pages,
+//   currentCount: _results.length,
+//   totalCount: _count,
+//   data: _results
+// });

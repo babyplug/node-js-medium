@@ -3,7 +3,13 @@ const HttpStatus = require("http-status-codes");
 
 module.exports = schema => {
   schema.pre("find", function() {
+    console.log("pre find");
     this.where({ deleted: false }).select("-deleted -__v -createdBy");
+  });
+
+  schema.pre("countDocuments", function() {
+    console.log("pre count");
+    this.where({ deleted: false });
   });
 
   schema.pre("findOne", function() {

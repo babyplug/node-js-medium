@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const passport = require("passport");
 const path = require("path");
+const paginate = require("express-paginate");
 
 // utils
 const passportPlugin = require("./src/plugins/passport");
@@ -29,6 +30,7 @@ mongoose.connect(config.database, {
 app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(paginate.middleware(25, 50));
 
 // declare routes
 app.use("/images", express.static(publicDir));

@@ -7,20 +7,12 @@ const bookService = require("../../../services/books");
 router
   .route("")
   .get(bookService.getAllBooks())
-  .post(async (req, res) => {
-    return await bookService.createBook(req, res);
-  });
+  .post(bookService.createBook());
 
 router
   .route("/:id")
-  .get(async (req, res) => {
-    return await bookService.getBookById(req, res);
-  })
-  .put(async (req, res) => {
-    return await bookService.updateBook(req, res);
-  })
-  .delete(async (req, res) => {
-    return await bookService.deleteBook(req, res);
-  });
+  .get(bookService.getBookById())
+  .put(bookService.updateBook())
+  .delete(bookService.deleteBook());
 
 module.exports = router;

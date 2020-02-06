@@ -42,7 +42,7 @@ const validateReq = body => {
     throw new ErrorHandler(HttpStatus.BAD_REQUEST, "Please filled description");
 };
 
-const createBook = async (req, res) => {
+const createBook = () => async (req, res) => {
   try {
     validateReq(req.body);
     const { title, description } = req.body;
@@ -59,7 +59,7 @@ const createBook = async (req, res) => {
   }
 };
 
-const getBookById = async (req, res) => {
+const getBookById = () => async (req, res) => {
   try {
     return res.json({ data: await BookModel.getById(req.params.id) });
   } catch (err) {
@@ -69,7 +69,7 @@ const getBookById = async (req, res) => {
   }
 };
 
-const updateBook = async (req, res) => {
+const updateBook = () => async (req, res) => {
   try {
     const { title, description } = req.body;
     const id = req.params.id;
@@ -93,7 +93,7 @@ const updateBook = async (req, res) => {
   }
 };
 
-const deleteBook = async (req, res) => {
+const deleteBook = () => async (req, res) => {
   try {
     const id = req.params.id;
     await BookModel.deleteBook(id);

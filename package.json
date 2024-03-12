@@ -23,7 +23,7 @@
     "passport-jwt": "^4.0.0",
     "path": "^0.12.7",
     "uuid": "^3.3.3",
-    "validator": "^12.1.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
